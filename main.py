@@ -1,3 +1,6 @@
+import os
+import uvicorn
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 
@@ -82,3 +85,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=int(os.environ.get("PORT", 8000)), host="0.0.0.0")
